@@ -5,20 +5,26 @@ define([
 
   // Custom Services
   , 'services/DataService'
-], function(Console, _, ds) {
+  , 'services/ErrorService'
+  , 'services/ErrorHttpInterceptorService'
+  , 'services/LocalStorageModule'
+], function(Console, _, ds, errorService, errorHttpInterceptorService, localStorageService) {
   "use strict";
   Console.group("Entering Service module.");
-  Console.info("DataService", ds);
 
   var services = {
     DataService: ds
+    , ErrorService: errorService
+    , ErrorHttpInterceptorService: errorHttpInterceptorService
+    , LocalStorageService: localStorageService
   };
   Console.info("Registered services: ", services);
 
   var initialize = function (angModule) {
     _.each(services,function(service,name){
       angModule.factory(name,service);
-    })
+    });
+
     Console.debug("Custom services initialized.");
   }
 
